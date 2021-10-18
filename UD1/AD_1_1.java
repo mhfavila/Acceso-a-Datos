@@ -12,8 +12,8 @@ public class AD_1_1 {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("Ficheros en el directorio actual: ");
-		File file = new File(".");
-		String[] archivos = file.list();
+		File file = new File(".");//abrimos un nuevo file
+		String[] archivos = file.list(); //creamos un array de string donde guardaremos lo que hemos leido de file
 		for(int i=0;i<archivos.length;i++) {
 			System.out.println(archivos[i]);
 		}
