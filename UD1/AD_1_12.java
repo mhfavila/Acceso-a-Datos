@@ -27,27 +27,68 @@ public class AD_1_12 {
 		//*******************************REVISAR NO FUNCIONA BIEN
 		
 		//C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\texto.txt
+		
+		
+		int x;
+		int contador = 0;
+
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce la ruta del archivo que quieres leer");
-		String ruta = sc.nextLine();
-		System.out.println("Introduce el numero de lineas");
-		int nLineas= sc.nextInt();
-		
-		
-		BufferedReader br = new BufferedReader (new FileReader(ruta));
-		int cLineas =0;
-		String linea = "";
-		while(((br.readLine())!=null)){
-			if(cLineas == nLineas){
-				break;
-				
+		Scanner sc1 = new Scanner(System.in);
+
+		System.out.print("Introduce el fichero que quieres leer: ");
+		String opcion = sc1.nextLine();
+		BufferedReader fic = new BufferedReader(new FileReader("C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\"+opcion + ".txt"));
+
+		System.out.print("Introduce el numero de lineas que quieres leer: ");
+		x = sc.nextInt();
+
+		if (contarLineas(opcion, x)) {
+
+			String linea = fic.readLine();
+
+			while (linea != null) {
+
+				if (contador == x) {
+					break;
+				}
+
+				System.out.println((contador+1)+linea);
+				linea = fic.readLine();
+				contador++;
+
 			}
-			System.out.println("Linea: "+cLineas+" "+br.readLine());
-			cLineas+=1;
-		}br.close();
-		
-		
 
+			fic.close();
+
+		} else {
+			System.out.println("ERROR, No hay tantas lineas en el fichero");
+		}
 	}
+	/**
+	 * 
+	 * @param ruta le pasamos la ruta del archivo que hay q leer
+	 * @param linea el numero de lineas q quiere leer
+	 * @return
+	 * @throws IOException
+	 */
+	public static boolean contarLineas(String ruta, int linea) throws IOException {
 
+		BufferedReader fic = new BufferedReader(new FileReader(ruta + ".txt"));
+
+		String lineas = fic.readLine();
+
+		int contarLineas = 0;
+
+		while (lineas != null) {
+			lineas = fic.readLine();
+			contarLineas++;
+		}
+
+		if (linea > contarLineas) {
+			return false;
+		}
+		return true;
+	}
 }
+
+
