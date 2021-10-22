@@ -70,7 +70,12 @@ public class AD_1_13 {
 			
 		}
 	}
-	
+	/**
+	 * sirve para copiar el contenido de un fichero en otro
+	 * @param leer le pasamos el archivo que quetemos leer
+	 * @param copia el archivo donde lo tiene que copiar
+	 * @throws IOException
+	 */
 	public static void copiaContenidoFicheros(File leer, File copia) throws IOException {
 		FileReader fic = new FileReader(leer);
 		FileWriter foc = new FileWriter(copia);

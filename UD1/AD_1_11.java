@@ -22,7 +22,8 @@ public class AD_1_11 {
 		
 		String cadena = " ";
 		String fin = "FIN";
-		String ruta = "C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt";
+		String ruta =  "C:\\Users\\favil\\OneDrive\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt";
+				//"C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt";
 		//String ruta = "C:\\Users\\Favila\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt";
 		 BufferedWriter br = null;
 	        try {
