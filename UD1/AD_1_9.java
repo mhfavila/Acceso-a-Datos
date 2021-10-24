@@ -23,25 +23,26 @@ public class AD_1_9 {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 
-		File fichero = new File("C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt");
+		File fichero = new File(
+				"C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\fichero.txt");
 		FileReader fic = new FileReader(fichero);
-		int i;
-		int x;
-		int contador = 0;
+
+		int nCaracteres;
 
 		Scanner sc = new Scanner(System.in);
 
 		System.out.print("Introduce el numero de caracteres: ");
-		x = sc.nextInt();
+		nCaracteres = sc.nextInt();
 
-		char[] c = new char[x];//guardamos en un array el valor de los caracteres
-
-		while ((i = fic.read()) != -1) {//leemos el archivo 
-			if (contador == x) {
-				//cuando el contador sea igual a la los caracteres se sale del bucle
+		char[] c = new char[nCaracteres];// guardamos en un array el valor de los caracteres
+		int i;
+		int contador = 0;
+		while ((i = fic.read()) != -1) {// leemos el archivo
+			if (contador == nCaracteres) {
+				// cuando el contador sea igual a la los caracteres se sale del bucle
 				break;
 			}
-			fic.skip(x);//se saltan los carracteres 
+			fic.skip(nCaracteres);// se saltan los carracteres
 			c[contador] = (char) i;
 			contador++;
 		}

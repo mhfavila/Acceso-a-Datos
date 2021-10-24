@@ -24,63 +24,64 @@ public class AD_1_12 {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		//*******************************REVISAR NO FUNCIONA BIEN
-		
-		//C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\texto.txt
-		
-		
-		int x;
-		int contador = 0;
+		// *******************************REVISAR NO FUNCIONA BIEN
+
+		// C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A
+		// DATOS\\T_1\\src\\texto.txt
+
+		int nLineas;
 
 		Scanner sc = new Scanner(System.in);
-		Scanner sc1 = new Scanner(System.in);
+		
 
 		System.out.print("Introduce el fichero que quieres leer: ");
-		String opcion = sc1.nextLine();
-		BufferedReader fic = new BufferedReader(new FileReader("C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\"+opcion + ".txt"));
+		String opcion = sc.nextLine();
+		BufferedReader fichero = new BufferedReader(new FileReader(
+				"C:\\Users\\ALUMNO\\Documents\\GitHub\\2DAM-REP\\ACCESO A DATOS\\T_1\\src\\" + opcion + ".txt"));
 
 		System.out.print("Introduce el numero de lineas que quieres leer: ");
-		x = sc.nextInt();
+		nLineas = sc.nextInt();
+		int contador = 0;
+		if (contarLineas(opcion, nLineas)) {
 
-		if (contarLineas(opcion, x)) {
-
-			String linea = fic.readLine();
+			String linea = fichero.readLine();
 
 			while (linea != null) {
 
-				if (contador == x) {
+				if (contador == nLineas) {
 					break;
 				}
 
-				System.out.println((contador+1)+linea);
-				linea = fic.readLine();
+				System.out.println((contador + 1) + linea);
+				linea = fichero.readLine();
 				contador++;
 
 			}
 
-			fic.close();
+			fichero.close();
 
 		} else {
-			System.out.println("ERROR, No hay tantas lineas en el fichero");
+			System.out.println("no hay esas lineas en el fichero");
 		}
 	}
+
 	/**
 	 * 
-	 * @param ruta le pasamos la ruta del archivo que hay q leer
+	 * @param ruta  le pasamos la ruta del archivo que hay q leer
 	 * @param linea el numero de lineas q quiere leer
 	 * @return
 	 * @throws IOException
 	 */
 	public static boolean contarLineas(String ruta, int linea) throws IOException {
 
-		BufferedReader fic = new BufferedReader(new FileReader(ruta + ".txt"));
+		BufferedReader fichero = new BufferedReader(new FileReader(ruta + ".txt"));
 
-		String lineas = fic.readLine();
+		String lineas = fichero.readLine();
 
 		int contarLineas = 0;
 
 		while (lineas != null) {
-			lineas = fic.readLine();
+			lineas = fichero.readLine();
 			contarLineas++;
 		}
 
@@ -90,5 +91,3 @@ public class AD_1_12 {
 		return true;
 	}
 }
-
-
