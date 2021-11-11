@@ -16,7 +16,7 @@ import java.util.Scanner;
  * las líneas (numeradas) donde se han encontrado diferencias imprimiendo las
  * líneas por pantalla.
  */
-//****************************************FALTA LO DER LAS LINEAS
+
 public class AD_1_14 {
 
 	public static void main(String[] args) throws IOException {
