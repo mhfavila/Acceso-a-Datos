@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 
 /**
  * 
@@ -30,37 +32,304 @@ public class AD_2_6 {
 
 	public static void main(String[] args) {
 		/* crearBase(); */// Desomentar una vez acabado el ejercicio
-		crearBase();
-		crearTablas();
-		meterDatosCliente();
-		// meterDatosVentas();
-		meterDatosVentas2();
-		meterDatosOficina();
-		meterEmpleados();
+		/*
+		 * crearBase(); crearTablas(); meterDatosCliente();
+		 * 
+		 * 
+		 * meterDatosOficina(); meterEmpleados(); meterDatosVentas2();
+		 */
+		// informacionOficinasEmpresa();
+		// numeroTotalVentas();
+		// consulta4();
+		// consulta5();
+		//consulta6();
+		//consulta7();
+		//consulta8();
+		consulta9();
+		//consulta10();
+		
+		
+	}
+	
+	
+	
+	private static void consulta8(){
+        try{
+        	c= DriverManager.getConnection(urlConnection, user, pwd);
+			Statement s = c.createStatement();
+           ResultSet rs = s.executeQuery(" SELECT c.idC,c.nombre,c.apellidos,c.telefono,COUNT(v.idCliente)as compras FROM Clientes c" +
+                                           " INNER JOIN Ventas v ONv.idCliente = c.idC GROUP BY c.idC ORDER BY compras DESC;");
+
+           int i = 1;
+           while(rs.next()){
+               System.out.println("[" +(i++) +"]");
+               System.out.println("Nombre: "+rs.getString("nombre"));
+               System.out.println("Apellido: "+rs.getString("apellidos"));
+               System.out.println("Telefono: "+rs.getString("telefono"));
+               System.out.println("Compras: "+rs.getString("compras"));
+           }
+          s.close();
+        }catch(SQLException e){
+           
+       }catch(Exception e){
+           e.printStackTrace(System.err);
+       }
+   }
+   private static void consulta9(){
+        try{
+        	c= DriverManager.getConnection(urlConnection, user, pwd);
+			Statement s = c.createStatement();
+           PreparedStatement ps = c.prepareStatement("SELECT o.calle,o.localidad,o.provincia FROM Oficina o WHERE localidad=?;");
+           String localidad = "Palencia";
+           ps.setString(1, localidad);
+           ResultSet rs=ps.executeQuery();
+           int i = 1;
+           while(rs.next()){
+               System.out.println("[" +(i++) +"]");
+               System.out.println("Calle: "+rs.getString("calle"));
+               System.out.println("Localidad: "+rs.getString("localidad"));
+               System.out.println("Provincia: "+rs.getString("provincia"));
+           }
+          s.close();
+        }catch(SQLException e){
+           
+       }catch(Exception e){
+           e.printStackTrace(System.err);
+       }
+   }
+   private static void consulta10(){
+        try {
+        	c= DriverManager.getConnection(urlConnection, user, pwd);
+			Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery("SELECT idE FROM Empleados e");
+
+           //int i = 1;
+           while(rs.next()){
+               PreparedStatement ps = c.prepareStatement("SELECT * FROM Empleados e WHERE e.idE = ?;");
+               ps.setInt(1, rs.getInt("idE"));
+               ResultSet rs1=ps.executeQuery();
+               int i = 1;
+               while(rs1.next()){
+                   System.out.println("[" +(i++) +"]");
+                   System.out.println("idEmpleado: "+rs1.getString("idE"));
+                   System.out.println("nombre: "+rs1.getString("nombre"));
+                   System.out.println("apellidos: "+rs1.getString("apellidos"));
+                   System.out.println("antiguedad: "+rs1.getString("antiguedad"));
+                   System.out.println("idOficina: "+rs1.getString("idOficina"));
+               }
+           }
+          s.close();
+        }catch(SQLException e){
+           
+       }catch(Exception e){
+           e.printStackTrace(System.err);
+       }
+   }
+
+
+
+	private static void consulta7() {
+		
+		try{
+			c= DriverManager.getConnection(urlConnection, user, pwd);
+			Statement s = c.createStatement();
+            ResultSet rs = s.executeQuery("SELECT e.idE,e.nombre,e.apellidos FROM Empleados e" );
+
+            int i = 1;
+            while(rs.next()){
+                System.out.println("[" +(i++) +"]");
+                System.out.println("IdVendedor: "+rs.getInt("idE"));
+                System.out.println("Nombre: "+rs.getString("nombre"));
+                System.out.println("Apellido: "+rs.getString("apellidos"));
+
+                ResultSet rs1 = s.executeQuery("SELECT idV,concepto FROM Ventas v WHERE idVendedor="+rs.getInt("idE"));
+                while(rs1.next()){
+                    System.out.println("[" +(i++) +"]");
+                    System.out.println("IdVenta: "+rs.getInt("idV"));
+                    System.out.println("Concepto: "+rs.getString("concepto"));
+                }
+            }
+           s.close();
+         }catch(SQLException e){
+           
+        }catch(Exception e){
+            e.printStackTrace(System.err);
+        }
+    }
+
+    
+		
+	
+
+	private static void consulta6() {
+		try {
+			c = DriverManager.getConnection(urlConnection, user, pwd);
+			PreparedStatement s = c.prepareStatement(
+					"select e.nombre,e.apellidos,COUNT(v.idVendedor) as ventas FROM empleados e inner join ventas v on v.idVendedor = e.idE group by e.idE order by ventas DESC;");
+
+			ResultSet rs = s.executeQuery();
+			int i = 1;
+			while (rs.next()) {
+
+				System.out.println("[OFICINA: " + (i++) + "]");
+				System.out.println("Nombre: " + rs.getString("nombre"));
+				System.out.println("Apellido: " + rs.getString("apellidos"));
+
+				System.out.println("N de ventas: " + rs.getString("ventas"));
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void consulta5() {
+		try {
+			c = DriverManager.getConnection(urlConnection, user, pwd);
+			PreparedStatement s = c.prepareStatement(
+					"select o.idO,o.calle,o.localidad,o.provincia,COUNT(e.idE)as ventas From oficina o Inner Join empleados e ON o.idO = e.idOficina Inner join  ventas v on v.idVendedor Group by o.idO;");
+
+			ResultSet rs = s.executeQuery();
+			int i = 1;
+			while (rs.next()) {
+
+				System.out.println("[OFICINA: " + (i++) + "]");
+				System.out.println("Id: " + rs.getString("idO"));
+				System.out.println("Calle: " + rs.getString("calle"));
+				System.out.println("Localidad: " + rs.getString("Localidad"));
+				System.out.println("Provincia: " + rs.getString("provincia"));
+				System.out.println("N de ventas: " + rs.getString("ventas"));
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void consulta4() {
+		// select o.idO,o.calle,o.localidad,o.provincia,COUNT(e.idE)as num From oficina
+		// o Inner Join empleados e ON o.idO = e.idOficina Group by o.idO
+
+		try {
+			c = DriverManager.getConnection(urlConnection, user, pwd);
+			PreparedStatement s = c.prepareStatement(
+					"select o.idO,o.calle,o.localidad,o.provincia,COUNT(e.idE)as num From oficina o Inner Join empleados e ON o.idO = e.idOficina Group by o.idO;");
+			ResultSet rs = s.executeQuery();
+			int i = 1;
+			while (rs.next()) {
+
+				System.out.println("[OFICINA: " + (i++) + "]");
+				System.out.println("Id: " + rs.getString("idO"));
+				System.out.println("Calle: " + rs.getString("calle"));
+				System.out.println("Localidad: " + rs.getString("Localidad"));
+				System.out.println("Provincia: " + rs.getString("provincia"));
+				System.out.println("N de empleados: " + rs.getString("num"));
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void numeroTotalVentas() {
+		try {
+			c = DriverManager.getConnection(urlConnection, user, pwd);
+			PreparedStatement s = c.prepareStatement("select count(*) from ventas");
+			ResultSet rs = s.executeQuery();
+			int i = 1;
+			while (rs.next()) {
+
+				System.out.println("El nuemero total de ventas es : " + rs.getString(1));
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private static void informacionOficinasEmpresa() {
+
+		try {
+			Connection c = DriverManager.getConnection(urlConnection, user, pwd);
+
+			PreparedStatement s = c.prepareStatement("Select * from oficina");
+			ResultSet rs = s.executeQuery();
+			int i = 1;
+			while (rs.next()) {
+				System.out.println("[OFICINA: " + (i++) + "]");
+				System.out.println("Id: " + rs.getString("idO"));
+				System.out.println("Calle: " + rs.getString("calle"));
+				System.out.println("Localidad: " + rs.getString("Localidad"));
+				System.out.println("Provincia: " + rs.getString("provincia"));
+
+			}
+
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 	}
 
 	private static void meterEmpleados() {
-		try(Connection c = DriverManager.getConnection(urlConnection,user,pwd);
-				PreparedStatement sInsert = c.prepareStatement("INSERT INTO empleado(idE,nombre,apellidos,antiguedad,idOficina) VALUES(?,?,?,?);") ){
+		ArrayList<String> listaNombre = new ArrayList<String>();
+		listaNombre.add("pedro");
+		listaNombre.add("marcos");
+		listaNombre.add("juan");
+		listaNombre.add("raul");
+		listaNombre.add("favila");
+		listaNombre.add("ramon");
+		listaNombre.add("julia");
+		ArrayList<String> listaApellido = new ArrayList<String>();
+		listaApellido.add("montero");
+		listaApellido.add("herredia");
+		listaApellido.add("stuani");
+		listaApellido.add("ramirez");
+		listaApellido.add("jimenez");
+		listaApellido.add("fuente");
+		listaApellido.add("crespo");
+		listaApellido.add("escan");
+		listaApellido.add("hidra");
+		listaApellido.add("suat");
+		try (Connection c = DriverManager.getConnection(urlConnection, user, pwd);
+				PreparedStatement sInsert = c.prepareStatement(
+						"INSERT INTO empleados(idE,nombre,apellidos,antiguedad,idOficina) VALUES(?,?,?,?,?);")) {
 			int ano = 0;
-			int mes =0;
-			int dia =0;
-			
-			for(int i=0;i<15;i++) {
-				i=i+1;
-				ano=(int) Math.floor(Math.random()*(2000-1900+1)+1900);
-				mes = (int) Math.floor(Math.random()*(30-1+1)+30);
-				dia = 
-				Date date=new Date(ano,mes,dia);
-			sInsert.setInt(1, i);
-			sInsert.setString(2, "algo");
-			sInsert.setString(3, "algo");
-			//'1995-01-29'
-			
-			sInsert.setDate(4, date);
-			sInsert.setInt(5,10);
-			sInsert.executeUpdate();
+			int mes = 0;
+			int dia = 0;
+			int ofi = 0;
+			String nombre;
+			String apellido;
+			int numero = 0;
+			int numero2 = 0;
+			for (int i = 1; i < 16; i++) {
+				numero = (int) Math.floor(Math.random() * (7 - 0) + 0);
+				numero2 = (int) Math.floor(Math.random() * (10 - 0) + 0);
+				ano = (int) Math.floor(Math.random() * (2000 - 1900 + 1) + 1900);
+				mes = (int) Math.floor(Math.random() * (12 - 1 + 1) + 12);
+				dia = (int) Math.floor(Math.random() * (30 - 1 + 1) + 30);
+				;
+				Date date = new Date(ano, mes, dia);
+				ofi = (int) (Math.random() * 5 + 1);
+				System.out.println("idOficina generado = " + ofi);
+				nombre = listaNombre.get(numero);
+				apellido = listaApellido.get(numero2);
+				sInsert.setInt(1, i);
+				sInsert.setString(2, nombre);
+				sInsert.setString(3, apellido);
+				sInsert.setDate(4, date);
+				sInsert.setInt(5, ofi);
+				sInsert.executeUpdate();
+
+				System.out.println("empleado " + i + "creado");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -70,18 +339,22 @@ public class AD_2_6 {
 		} catch (Exception e) {
 			e.printStackTrace(System.err);
 		}
-		
+
 	}
 
 	private static void meterDatosOficina() {
 		try (Connection c = DriverManager.getConnection(urlConnection, user, pwd);
 				PreparedStatement sInsert = c
 						.prepareStatement("INSERT INTO oficina(idO,calle,localidad,provincia) VALUES(?,?,?,?);")) {
-			sInsert.setInt(1, 1);
-			sInsert.setString(2, "algo");
-			sInsert.setInt(3, 15);
-			sInsert.setInt(4, 10);
-			sInsert.executeUpdate();
+			for (int i = 1; i < 6; i++) {
+
+				sInsert.setInt(1, i);
+				sInsert.setString(2, "algo");
+				sInsert.setString(3, "algo");
+				sInsert.setString(4, "algo");
+				sInsert.executeUpdate();
+				System.out.println("Ofcina " + i + "creada");
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("SQL mensaje: " + e.getMessage());
@@ -94,17 +367,27 @@ public class AD_2_6 {
 	}
 
 	private static void meterDatosVentas2() {
+
+		ArrayList<String> listaConcepto = new ArrayList<String>();
+		listaConcepto.add("compra");
+		listaConcepto.add("venta");
+		listaConcepto.add("regalo");
 		try (Connection c = DriverManager.getConnection(urlConnection, user, pwd);
 				PreparedStatement sInsert = c
+
 						.prepareStatement("INSERT INTO ventas(idV,concepto,idVendedor,idCliente) VALUES(?,?,?,?);")) {
+
 			int idVndedor = 0;
 			int idCliente = 0;
-			for (int i = 0; i < 30; i++) {
-				i = i + 1;
-				idVndedor = (int) (Math.random() * 16 + 1);
-				idCliente = (int) (Math.random() * 11 + 1);
+			int numero = 0;
+			for (int i = 1; i < 30; i++) {
+
+				idVndedor = (int) (Math.random() * 15 + 1);
+				idCliente = (int) (Math.random() * 10 + 1);
+				numero = (int) Math.floor(Math.random() * (3 - 0) + 0);
+				String concepto = listaConcepto.get(numero);
 				sInsert.setInt(1, i);
-				sInsert.setString(2, "algo");
+				sInsert.setString(2, concepto);
 				sInsert.setInt(3, idVndedor);
 				sInsert.setInt(4, idCliente);
 				sInsert.executeUpdate();
