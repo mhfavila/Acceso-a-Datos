@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generated 28 dic 2021 17:07:07 by Hibernate Tools 5.5.7.Final --><!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping auto-import="true" default-access="property" default-cascade="none" default-lazy="true">
+    <class catalog="software9" dynamic-insert="false" dynamic-update="false" mutable="true" name="tablas.Tarea" optimistic-lock="none" polymorphism="implicit" select-before-update="false" table="tarea">
+        <composite-id class="tablas.TareaId" mapped="false" name="id" unsaved-value="undefined">
+            <key-property name="nombreProyecto" type="string">
+                <column length="20" name="nombre_proyecto"/>
+            </key-property>
+            <key-property name="nombre" type="string">
+                <column length="200" name="nombre"/>
+            </key-property>
+        </composite-id>
+        <many-to-one class="tablas.Proyecto" embed-xml="true" fetch="select" insert="false" name="proyecto" not-found="exception" optimistic-lock="true" unique="false" update="false">
+            <column length="20" name="nombre_proyecto" not-null="true"/>
+        </many-to-one>
+        <property generated="never" lazy="false" name="estado" optimistic-lock="true" type="string" unique="false">
+            <column length="20" name="estado" not-null="true"/>
+        </property>
+        <property generated="never" lazy="false" name="horas" optimistic-lock="true" type="int" unique="false">
+            <column name="horas" not-null="true"/>
+        </property>
+        <set embed-xml="true" fetch="select" inverse="false" lazy="true" mutable="true" name="empleados" optimistic-lock="true" sort="unsorted" table="empleado_tarea">
+            <key on-delete="noaction">
+                <column length="20" name="nombre_proyecto_tarea" not-null="true"/>
+                <column length="200" name="nombre_tarea" not-null="true"/>
+            </key>
+            <many-to-many embed-xml="true" entity-name="tablas.Empleado" not-found="exception" unique="false">
+                <column length="9" name="DNI_empleado" not-null="true"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
