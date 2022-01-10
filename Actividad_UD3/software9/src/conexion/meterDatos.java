@@ -183,6 +183,7 @@ public class meterDatos {
 		for (int i = 0; i < proyectos.size(); i++) {
 			nAleatTareasProyecto = (int) (Math.random() * (8 - 5) + 5);
 			Proyecto proyecto = proyectos.get(i);
+			ArrayList<Integer> indices = new ArrayList<Integer>();
 
 			int nAleatNombretarea;
 			int nAleatProyecto;
@@ -215,7 +216,11 @@ public class meterDatos {
 
 				for (int k = 0; k < nAleatEmpleados; k++) {
 					int indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
-
+					while(indices.contains(indiceEmpleadosAleat)) {
+						System.out.println("Indice repetido "+indiceEmpleadosAleat+" proyecto "+ proyecto.getNombre());
+						indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
+					}
+					indices.add(indiceEmpleadosAleat);
 					// aqui añadimos el empleado a la tarea
 
 					tarea.getEmpleados().add(empleados.get(indiceEmpleadosAleat));
