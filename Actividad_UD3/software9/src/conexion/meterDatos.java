@@ -143,18 +143,19 @@ public class meterDatos {
 	private static void creacionEmpleado() {
 		int nAleatNombre;// generara un numero aleatorio para sacar un dni de dentro del array
 		int nAleatApellido;
-
+		
 		int nAleatTelefono;
 		int nAleatorioAsignacionProyecto;// para sacar el numero de proyectos en el q esta el empleado
 		int nAleatProyecto;// aleatoriopara sacar el proyecto para a;adirlo al epleado
 		tablas.Empleado empleado;
 		for (int i = 0; i < 10; i++) {
+			ArrayList<Integer> indice = new ArrayList<Integer>();
 			empleado = new tablas.Empleado();
 			nAleatNombre = (int) (Math.random() * (listaNombre.size() - 0) + 0);
 			nAleatApellido = (int) (Math.random() * (listaApellido.size() - 0) + 0);
 
 			nAleatTelefono = (int) (Math.random() * (telefono.size() - 0) + 0);
-			nAleatorioAsignacionProyecto = (int) (Math.random() * (3 - 0) + 0);
+			nAleatorioAsignacionProyecto = (int) (Math.random() * 4);
 
 			empleado.setDni(dni.get(i));
 			empleado.setNombre(listaNombre.get(nAleatNombre));
@@ -166,6 +167,12 @@ public class meterDatos {
 
 			for (int k = 0; k < nAleatorioAsignacionProyecto; k++) {
 				nAleatProyecto = (int) (Math.random() * (proyectos.size() - 0) + 0);
+				
+				while(indice.contains(nAleatProyecto)) {
+					
+					nAleatProyecto = (int) (Math.random() * (proyectos.size() - 0) + 0);
+				}
+				indice.add(nAleatProyecto);
 				empleado.getProyectos().add(proyectos.get(nAleatProyecto));
 
 			}
@@ -217,7 +224,6 @@ public class meterDatos {
 				for (int k = 0; k < nAleatEmpleados; k++) {
 					int indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
 					while(indices.contains(indiceEmpleadosAleat)) {
-						System.out.println("Indice repetido "+indiceEmpleadosAleat+" proyecto "+ proyecto.getNombre());
 						indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
 					}
 					indices.add(indiceEmpleadosAleat);
