@@ -62,7 +62,7 @@ public class consultasBBDD {
 				tarea = new Tarea();
 
 				tarea.setId(new TareaId(nombreProyecto, nombreTarea));
-				listadoEmpleadosTarea(tarea);
+				listadoEmpleadosTarea1(tarea);
 
 				break;
 			case 3:
@@ -399,7 +399,11 @@ public class consultasBBDD {
 		}
 
 	}
-
+	/**
+	 * Muestra los dni de los empleados asignados a esa tarea
+	 * 
+	 * @param tarea tarea de lo que queremos ver los dni de los empleados
+	 */
 	public static void listadoEmpleadosTarea1(Tarea tarea) {
 
 		try (Session s = conexionHiber.getSessionFactory().openSession()) {
@@ -409,7 +413,17 @@ public class consultasBBDD {
 				
 				Tarea tarea1 = (Tarea)s.get(Tarea.class, tarea.getId());
 				t.commit();
-				System.out.println(tarea1.getEmpleados());
+				
+				Iterator<Empleado> itTarea = tarea1.getEmpleados().iterator();
+				System.out.println("-------------------------------");
+				while (itTarea.hasNext()) {
+					Empleado empleado = itTarea.next();
+					
+					System.out.println("\tnombre: " + empleado.getDni());
+					
+				}
+				System.out.println("-------------------------------");
+				
 
 			} catch (Exception e) {
 				e.printStackTrace(System.err);

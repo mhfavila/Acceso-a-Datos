@@ -193,10 +193,10 @@ public class meterDatos {
 			for (int j = 0; j < nAleatTareasProyecto; j++) {
 				nAleatNombretarea = (int) (Math.random() * (nTarea.size() - 0) + 0);
 				nAleatProyecto = (int) (Math.random() * (proyectos.size() - 0) + 0);
-				nAleatEmpleados = (int) (Math.random() * (empleados.size() - 0) + 0);
+				// nAleatEmpleados = (int) (Math.random() * (2 - 0) + 0);
 				nAleatHoras = (int) (Math.random() * (10 - 2) + 2);
 				nAleatEstadoTarea = (int) (Math.random() * (estadoTarea.size() - 0) + 0);
-				nAleatEmpleados = (int) (Math.random() * (2 - 0) + 0);
+				nAleatEmpleados = (int) (Math.random() * 3);
 				Tarea tarea = new Tarea();
 				TareaId tareaId = new TareaId();
 				tareaId.setNombre(nTarea.get(nAleatNombretarea));
@@ -215,7 +215,9 @@ public class meterDatos {
 
 				for (int k = 0; k < nAleatEmpleados; k++) {
 					int indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
+
 					// aqui añadimos el empleado a la tarea
+
 					tarea.getEmpleados().add(empleados.get(indiceEmpleadosAleat));
 				}
 				if (comprobarRepetidoNombreTarea(tarea.getId().getNombre(), proyecto)) {
