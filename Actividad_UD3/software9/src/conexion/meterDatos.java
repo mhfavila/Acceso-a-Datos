@@ -164,8 +164,8 @@ public class meterDatos {
 			// empleado.setTelefono(Integer.parseInt(telefono.get(nAleatTelefono)));
 			empleado.setTelefono(telefono.get(nAleatTelefono));
 			// Revisar lo de los empleados en proyectos
-/*
-			for (int k = 0; k < nAleatorioAsignacionProyecto; k++) {
+
+		/*	for (int k = 0; k < nAleatorioAsignacionProyecto; k++) {
 				nAleatProyecto = (int) (Math.random() * (proyectos.size() - 0) + 0);
 				
 				while(indice.contains(nAleatProyecto)) {
@@ -175,7 +175,8 @@ public class meterDatos {
 				indice.add(nAleatProyecto);
 				empleado.getProyectos().add(proyectos.get(nAleatProyecto));
 
-			}*/
+			}
+			*/
 
 			empleados.add(empleado);
 		}
@@ -191,6 +192,7 @@ public class meterDatos {
 			nAleatTareasProyecto = (int) (Math.random() * (8 - 5) + 5);
 			Proyecto proyecto = proyectos.get(i);
 			ArrayList<Integer> indices = new ArrayList<Integer>();
+			ArrayList<Integer> indice = new ArrayList<Integer>();
 
 			int nAleatNombretarea;
 			int nAleatProyecto;
@@ -198,7 +200,10 @@ public class meterDatos {
 			int nAleatEstadoTarea;
 
 			int nAleatEmpleados;
+			int nAleatorioAsignacionProyecto;
 			for (int j = 0; j < nAleatTareasProyecto; j++) {
+				nAleatorioAsignacionProyecto = (int) (Math.random() * 3);
+
 				nAleatNombretarea = (int) (Math.random() * (nTarea.size() - 0) + 0);
 				nAleatProyecto = (int) (Math.random() * (proyectos.size() - 0) + 0);
 				// nAleatEmpleados = (int) (Math.random() * (2 - 0) + 0);
@@ -227,10 +232,11 @@ public class meterDatos {
 						indiceEmpleadosAleat = (int) (Math.random() * ((empleados.size() - 1 - 0) + 1)) + 0;
 					}
 					indices.add(indiceEmpleadosAleat);
-					// aqui añadimos el empleado a la tarea
-
-					tarea.getEmpleados().add(empleados.get(indiceEmpleadosAleat));
+					
 					proyecto.getEmpleados().add(empleados.get(indiceEmpleadosAleat));
+					
+					tarea.getEmpleados().add(empleados.get(indiceEmpleadosAleat));
+					
 				}
 				if (comprobarRepetidoNombreTarea(tarea.getId().getNombre(), proyecto)) {
 					renombrarTarea(tarea, proyecto);
